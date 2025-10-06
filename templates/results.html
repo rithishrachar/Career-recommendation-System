@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Career Recommendation — Results</title>
+
+  <!-- Bootstrap & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --accent: #06b6d4;
+      --bg-dark: #0b1221;
+      --text-light: #f1f5f9;
+      --muted: #94a3b8;
+      --radius: 16px;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Inter", system-ui, sans-serif;
+      background: linear-gradient(180deg, #0b1221, #071028);
+      color: var(--text-light);
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    /* Navbar */
+    .navbar {
+      background: rgba(12, 17, 28, 0.9);
+      border-radius: 12px;
+      box-shadow: 0 4px 30px rgba(13, 16, 39, 0.2);
+      margin-top: 18px;
+    }
+    .navbar-brand, .nav-link { color: var(--text-light) !important; font-weight: 500; }
+    .nav-link:hover { color: var(--accent) !important; }
+
+    /* Result Card */
+    .result-card {
+      background: linear-gradient(180deg, rgba(13,16,39,0.85), rgba(8,10,28,0.9));
+      border-radius: var(--radius);
+      box-shadow: 0 10px 40px rgba(13,16,39,0.6);
+      padding: 40px;
+      max-width: 950px;
+      width: 100%;
+      margin: 60px auto 0;
+      border: 1px solid rgba(255,255,255,0.08);
+      animation: fadeUp 1s ease;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .result-card h2 {
+      color: var(--accent);
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .list-group-item {
+      background: transparent;
+      border: none;
+      color: #fff;
+      padding: 16px 10px;
+    }
+
+    .career-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .career-name {
+      flex: 1 0 35%;
+      font-weight: 600;
+      font-size: 1.05rem;
+      min-width: 160px;
+    }
+
+    .career-progress {
+      flex: 1 0 60%;
+      min-width: 200px;
+    }
+
+    .progress {
+      height: 22px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 12px;
+    }
+
+    .progress-bar {
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: width 1.2s ease;
+      line-height: 22px;
+    }
+
+    /* Chart Container */
+    .chart-container {
+      background: linear-gradient(180deg, rgba(13,16,39,0.85), rgba(8,10,28,0.9));
+      border-radius: var(--radius);
+      box-shadow: 0 10px 40px rgba(13,16,39,0.5);
+      padding: 30px;
+      margin: 40px auto;
+      max-width: 950px;
+      border: 1px solid rgba(255,255,255,0.08);
+      animation: fadeUp 1.2s ease;
+    }
+
+    .visual-title {
+      text-align: center;
+      color: var(--accent);
+      font-weight: 700;
+      margin-top: 60px;
+      margin-bottom: 25px;
+    }
+
+    /* YouTube Section */
+    .courses-section {
+      background: rgba(10,14,30,0.95);
+      border-radius: 16px;
+      padding: 40px 20px;
+      margin: 60px auto;
+      max-width: 1000px;
+      border: 1px solid rgba(255,255,255,0.08);
+      text-align: center;
+    }
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+      margin-top: 25px;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      transition: 0.3s ease;
+      box-shadow: 0 0 20px rgba(6,182,212,0.3);
+    }
+
+    iframe {
+      width: 100%;
+      height: 200px;
+      border-radius: 12px;
+      border: none;
+    }
+
+    footer {
+      color: #9fb1d9;
+      margin-top: 48px;
+      padding: 32px 0;
+      text-align: center;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .action-btn {
+      background: linear-gradient(90deg, var(--accent), var(--primary));
+      color: #fff;
+      border-radius: 10px;
+      padding: 10px 22px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: 0.3s;
+      box-shadow: 0 0 20px rgba(6,182,212,0.2);
+    }
+    .action-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px rgba(79,70,229,0.4);
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg container py-3 px-3 mt-3">
+    <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+      <i class="fa-solid fa-lightbulb text-info fs-4"></i>
+      <span class="fw-bold">CareerRecommend</span>
+    </a>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a href="/" class="nav-link">Home</a></li>
+        <li class="nav-item"><a href="/recommend" class="nav-link">Get Recommendations</a></li>
+        <li class="nav-item ms-lg-3">
+          <a href="/download_report" class="btn action-btn"><i class="fa-solid fa-file-pdf me-1"></i>Download Report</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Results Section -->
+  <section class="container">
+    <div class="result-card">
+      <h2><i class="fa-solid fa-chart-line me-2 text-info"></i>Your Top Recommended Studies</h2>
+      <ul class="list-group mb-4">
+        {% for name, prob in recommendations %}
+        <li class="list-group-item">
+          <div class="career-row">
+            <div class="career-name">{{ name }}</div>
+            <div class="career-progress">
+              <div class="progress">
+                <div
+                  class="progress-bar {% if loop.index == 1 %}bg-success{% elif loop.index == 2 %}bg-info{% else %}bg-warning{% endif %}"
+                  role="progressbar"
+                  style="width: {{ (prob*100)|round(2) }}%;"
+                  aria-valuenow="{{ (prob*100)|round(2) }}"
+                  aria-valuemin="0" aria-valuemax="100">
+                  {{ (prob*100)|round(2) }}%
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+        {% endfor %}
+      </ul>
+
+      <div class="text-center mt-4">
+        <a href="/" class="action-btn me-3"><i class="fa-solid fa-home me-1"></i>Back to Home</a>
+        <a href="/recommend" class="action-btn"><i class="fa-solid fa-redo me-1"></i>Try Again</a>
+      </div>
+    </div>
+
+    <h3 class="visual-title">Visual Analysis</h3>
+    <div class="chart-container text-center">
+      <select id="chartSelect" class="form-select w-auto mx-auto mb-3">
+        <option value="barChart">Bar Chart</option>
+        <option value="pieChart">Pie Chart</option>
+        <option value="doughnutChart">Doughnut Chart</option>
+        <option value="radarChart">Radar Chart</option>
+      </select>
+      <div class="d-flex justify-content-center align-items-center" style="min-height:350px;">
+        <canvas id="barChart"></canvas>
+        <canvas id="pieChart" style="display:none;"></canvas>
+        <canvas id="doughnutChart" style="display:none;"></canvas>
+        <canvas id="radarChart" style="display:none;"></canvas>
+      </div>
+    </div>
+    <!-- YouTube Video Recommendations -->
+<section class="courses-section">
+  <h3 class="visual-title">
+    <i class="fa-brands fa-youtube me-2 text-danger"></i>Recommended YouTube Videos For Studies
+  </h3>
+
+  {% for name, videos in youtube_results.items() %}
+  <div class="career-videos mb-5">
+    <h4 style="color: var(--accent); text-align:center;">{{ name }}</h4>
+    <div class="video-grid">
+      {% for video in videos %}
+      <div class="card bg-dark border-0 shadow-sm" style="border-radius: 12px; overflow: hidden;">
+        <img src="{{ video.thumbnail }}" class="card-img-top" alt="{{ video.title }}">
+        <div class="card-body">
+          <h6 class="card-title" style="color: var(--text-light); font-weight:600;">{{ video.title }}</h6>
+          <a href="{{ video.url }}" target="_blank"
+             class="btn btn-sm btn-outline-info mt-2">
+             <i class="fa-brands fa-youtube me-1"></i> Watch on YouTube
+          </a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endfor %}
+</section>
+
+  <footer>
+    © <span id="year"></span> CareerRecommend — Empowering Smarter Choices
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Animate progress bars
+    document.addEventListener("DOMContentLoaded", () => {
+      document.querySelectorAll('.progress-bar').forEach(bar => {
+        const width = bar.style.width;
+        bar.style.width = '0';
+        setTimeout(() => { bar.style.width = width; }, 300);
+      });
+    });
+
+    // Chart switcher
+    document.getElementById('chartSelect').addEventListener('change', function() {
+      ['barChart','pieChart','doughnutChart','radarChart'].forEach(id => document.getElementById(id).style.display = 'none');
+      document.getElementById(this.value).style.display = 'block';
+    });
+
+    // Chart data
+    const labels = {{ recommendations | map(attribute=0) | list | tojson }};
+    const data = {{ recommendations | map(attribute=1) | list | tojson }};
+    const percentData = data.map(x => (x*100).toFixed(2));
+
+    const chartCommon = {
+      responsive: true,
+      plugins: { legend: { position: 'bottom', labels: { color: '#f1f5f9' } } },
+      scales: { y: { beginAtZero: true, max: 100, ticks: { color: '#f1f5f9', callback: v => v+'%' } },
+                x: { ticks: { color: '#f1f5f9' } } }
+    };
+
+    new Chart(document.getElementById("barChart"), {
+      type: 'bar',
+      data: { labels, datasets: [{ data: percentData, label: 'Probability (%)',
+      backgroundColor: ['#43cea2', '#667eea', '#ffc107'] }] },
+      options: chartCommon
+    });
+
+    new Chart(document.getElementById("pieChart"), {
+      type: 'pie',
+      data: { labels, datasets: [{ data: percentData, backgroundColor: ['#667eea', '#ffc107', '#43cea2'] }] },
+      options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { color: '#f1f5f9' } } } }
+    });
+
+    new Chart(document.getElementById("doughnutChart"), {
+      type: 'doughnut',
+      data: { labels, datasets: [{ data: percentData, backgroundColor: ['#764ba2', '#43cea2', '#ffc107'] }] },
+      options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { color: '#f1f5f9' } } } }
+    });
+
+    new Chart(document.getElementById("radarChart"), {
+      type: 'radar',
+      data: { labels, datasets: [{ label: 'Probability (%)', data: percentData,
+      backgroundColor: 'rgba(79,70,229,0.2)', borderColor: '#4f46e5', borderWidth: 2 }] },
+      options: { responsive: true, scales: { r: { angleLines: { color: '#334155' },
+      grid: { color: '#334155' }, pointLabels: { color: '#f1f5f9' },
+      ticks: { color: '#f1f5f9', stepSize: 20 } } } }
+    });
+  </script>
+</body>
+</html>

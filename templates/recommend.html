@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Career Recommendation — Form</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <!-- Font & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+
+  <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --accent: #06b6d4;
+      --bg-dark: #0b1221;
+      --text-light: #f1f5f9;
+      --muted: #94a3b8;
+      --radius: 16px;
+    }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: "Inter", system-ui, sans-serif;
+      background: linear-gradient(180deg, #0b1221, #071028);
+      color: var(--text-light);
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    #particles-js {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      background: linear-gradient(180deg, #0b1221, #071028);
+    }
+
+    /* NAVBAR */
+    .navbar {
+      background: rgba(12, 17, 28, 0.9);
+      border-radius: 12px;
+      box-shadow: 0 4px 30px rgba(13, 16, 39, 0.2);
+      margin-top: 18px;
+    }
+    .navbar-brand, .nav-link { color: var(--text-light) !important; font-weight: 500; }
+    .nav-link:hover { color: var(--accent) !important; }
+    .btn-accent {
+      background: linear-gradient(90deg, var(--accent), var(--primary));
+      color: #fff !important;
+      border-radius: 10px;
+      padding: 8px 16px;
+      transition: 0.3s ease;
+    }
+    .btn-accent:hover { transform: scale(1.05); box-shadow: 0 0 15px rgba(6,182,212,0.4); }
+
+    /* FORM SECTION */
+    .form-section {
+      padding: 60px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 90vh;
+    }
+
+    .form-card {
+      background: linear-gradient(180deg, rgba(13,16,39,0.85), rgba(8,10,28,0.9));
+      border-radius: var(--radius);
+      box-shadow: 0 10px 40px rgba(13,16,39,0.6);
+      padding: 40px;
+      max-width: 950px;
+      width: 100%;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.08);
+      animation: fadeUp 1s ease;
+    }
+
+    @keyframes fadeUp {
+      from {opacity: 0; transform: translateY(30px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    h2 {
+      font-weight: 700;
+      color: var(--text-light);
+      text-align: center;
+      margin-bottom: 35px;
+    }
+
+    label {
+      color: var(--muted);
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .form-control {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--text-light);
+      border-radius: 10px;
+      transition: 0.3s all ease;
+    }
+
+    .form-control:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 12px rgba(6,182,212,0.4);
+      background: rgba(255,255,255,0.08);
+      color: #fff;
+    }
+
+    /* DARK DROPDOWN */
+    select.form-control {
+      background-color: rgba(20, 25, 45, 0.9);
+      color: #ffffff;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      padding-right: 30px;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg fill='%23ffffff' height='12' viewBox='0 0 20 20' width='12' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M7 8l3 3 3-3z'/%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      background-size: 12px;
+    }
+
+    select.form-control option {
+      background-color: #111827;
+      color: #f1f5f9;
+    }
+
+    select.form-control:focus option:checked {
+      background-color: var(--accent);
+      color: #fff;
+    }
+
+    .btn-submit {
+      background: linear-gradient(90deg, var(--accent), var(--primary));
+      color: #fff;
+      font-weight: 600;
+      border: none;
+      border-radius: 12px;
+      padding: 12px 30px;
+      transition: 0.3s ease all;
+      box-shadow: 0 0 20px rgba(6,182,212,0.2);
+    }
+
+    .btn-submit:hover {
+      transform: scale(1.04);
+      box-shadow: 0 0 25px rgba(79,70,229,0.4);
+    }
+
+    .error { border-color: #ff4d4d !important; }
+
+    /* HOW IT WORKS */
+    #how-it-works {
+      padding: 80px 20px;
+      background: linear-gradient(180deg, rgba(10,14,30,0.9), rgba(5,8,20,0.95));
+      border-top: 1px solid rgba(255,255,255,0.08);
+      text-align: center;
+    }
+    #how-it-works h3 { color: var(--accent); font-weight: 700; margin-bottom: 30px; }
+    #how-it-works p { color: var(--muted); max-width: 700px; margin: 0 auto 40px; }
+    .step-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 25px;
+      border-radius: 14px;
+      color: var(--text-light);
+      transition: 0.3s ease;
+    }
+    .step-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 6px 25px rgba(79,70,229,0.25);
+    }
+    .step-icon {
+      font-size: 2rem;
+      color: var(--accent);
+      margin-bottom: 15px;
+    }
+
+    @media (max-width: 768px) {
+      .form-card { padding: 25px; }
+    }
+
+    /* MODALS */
+    .modal-content {
+      background: rgba(13,16,39,0.95);
+      color: #f1f5f9;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.15);
+      box-shadow: 0 0 25px rgba(6,182,212,0.3);
+      backdrop-filter: blur(12px);
+    }
+
+    .modal-header {
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .modal-footer {
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .btn-proceed {
+      background: linear-gradient(90deg, #06b6d4, #4f46e5);
+      border: none;
+      color: white;
+      font-weight: 600;
+      border-radius: 10px;
+      padding: 10px 22px;
+      transition: 0.3s;
+    }
+
+    .btn-proceed:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(6,182,212,0.4);
+    }
+
+    /* BACK/GUIDELINES FLEX */
+    .top-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+  </style>
+
+  <script>
+    function calculateScores() {
+      const ids = ["math_score","history_score","physics_score","chemistry_score","biology_score","english_score","geography_score"];
+      let total = 0;
+      ids.forEach(id => {
+        const val = parseFloat(document.getElementById(id).value) || 0;
+        total += val;
+      });
+      const avg = total / ids.length;
+      document.getElementById("total_score").value = total.toFixed(2);
+      document.getElementById("average_score").value = avg.toFixed(2);
+    }
+
+    function validateForm() {
+      const form = document.getElementById('recommendForm');
+      let valid = true;
+      const inputs = form.querySelectorAll('input[required], select[required]');
+      inputs.forEach(input => {
+        if (!input.value.trim()) {
+          input.classList.add('error');
+          valid = false;
+        } else {
+          input.classList.remove('error');
+        }
+      });
+      if (!valid) {
+        alert("⚠️ Please fill all required fields correctly.");
+      }
+      return valid;
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      particlesJS("particles-js", {
+        "particles": {
+          "number": {"value": 70, "density": {"enable": true, "value_area": 900}},
+          "color": {"value": "#06b6d4"},
+          "shape": {"type": "circle"},
+          "opacity": {"value": 0.5, "random": true},
+          "size": {"value": 3, "random": true},
+          "move": {"enable": true, "speed": 2, "out_mode": "out"}
+        },
+        "interactivity": {
+          "events": {"onhover": {"enable": true, "mode": "repulse"}},
+          "modes": {"repulse": {"distance": 100}}
+        },
+        "retina_detect": true
+      });
+    });
+  </script>
+</head>
+
+<body>
+  <div id="particles-js"></div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg container py-3 px-3 mt-3">
+    <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+      <span style="color:var(--accent)" class="fs-4"><i class="fa-solid fa-lightbulb"></i></span>
+      <span class="fw-bold">CareerRecommend</span>
+    </a>
+    <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div id="navMenu" class="collapse navbar-collapse">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a href="/" class="nav-link">Home</a></li>
+        <li class="nav-item"><a href="#how-it-works" class="nav-link">How it Works</a></li>
+        <li class="nav-item ms-3">
+          <button class="btn btn-accent" onclick="alert('Please use the form to get recommendations!')">Get Recommendations</button>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- FORM SECTION -->
+  <section class="form-section">
+    <div class="form-card">
+      <!-- 🔙 Back & Guidelines Buttons -->
+      <div class="top-buttons">
+        <a href="/" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
+        <button class="back-btn" data-bs-toggle="modal" data-bs-target="#guidelinesModal">
+          <i class="fa-solid fa-book me-2"></i> Guidelines
+        </button>
+      </div>
+
+      <h2><i class="fa-solid fa-user-graduate me-2 text-accent"></i>Get Your Career Recommendations</h2>
+
+      <form id="recommendForm" action="/pred" method="POST" onsubmit="return validateForm()">
+        <div class="row g-4">
+          <!-- Your input fields remain unchanged -->
+          <div class="col-md-6">
+            <label for="gender">Gender</label>
+            <select class="form-control" id="gender" name="gender" required>
+              <option value="">Select...</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label for="part_time_job">Part-Time Job</label>
+            <select class="form-control" id="part_time_job" name="part_time_job" required>
+              <option value="">Select...</option>
+              <option value="true">Yes</option>
+              <option value="false">No</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label for="absence_days">Absence Days</label>
+            <input type="number" class="form-control" id="absence_days" name="absence_days" min="0" max="365" required>
+          </div>
+          <div class="col-md-6">
+            <label for="extracurricular_activities">Extracurricular Activities</label>
+            <select class="form-control" id="extracurricular_activities" name="extracurricular_activities" required>
+              <option value="">Select...</option>
+              <option value="true">Yes</option>
+              <option value="false">No</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label for="weekly_self_study_hours">Weekly Self-Study Hours</label>
+            <input type="number" class="form-control" id="weekly_self_study_hours" name="weekly_self_study_hours" min="0" max="100" required>
+          </div>
+        </div>
+
+        <hr class="text-muted my-4">
+
+        <div class="row g-4">
+          <div class="col-md-6"><label>Math Score</label><input type="number" class="form-control" id="math_score" name="math_score" min="0" max="100" onchange="calculateScores()" required></div>
+          <div class="col-md-6"><label>History Score</label><input type="number" class="form-control" id="history_score" name="history_score" min="0" max="100" onchange="calculateScores()" required></div>
+          <div class="col-md-6"><label>Physics Score</label><input type="number" class="form-control" id="physics_score" name="physics_score" min="0" max="100" onchange="calculateScores()" required></div>
+          <div class="col-md-6"><label>Chemistry Score</label><input type="number" class="form-control" id="chemistry_score" name="chemistry_score" min="0" max="100" onchange="calculateScores()" required></div>
+          <div class="col-md-6"><label>Biology Score</label><input type="number" class="form-control" id="biology_score" name="biology_score" min="0" max="100" onchange="calculateScores()" required></div>
+          <div class="col-md-6"><label>English Score</label><input type="number" class="form-control" id="english_score" name="english_score" min="0" max="100" onchange="calculateScores()" required></div>
+          <div class="col-md-6"><label>Geography Score</label><input type="number" class="form-control" id="geography_score" name="geography_score" min="0" max="100" onchange="calculateScores()" required></div>
+        </div>
+
+        <hr class="text-muted my-4">
+
+        <div class="row g-4">
+          <div class="col-md-6">
+            <label>Total Score</label>
+            <input type="number" class="form-control" id="total_score" name="total_score" readonly>
+          </div>
+          <div class="col-md-6">
+            <label>Average Score</label>
+            <input type="number" class="form-control" id="average_score" name="average_score" readonly>
+          </div>
+        </div>
+
+        <div class="text-center mt-5">
+          <button type="submit" class="btn btn-submit">
+            <i class="fa-solid fa-paper-plane me-2"></i>Get Recommendations
+          </button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- GUIDELINES MODAL -->
+  <div class="modal fade" id="guidelinesModal" tabindex="-1" aria-labelledby="guidelinesModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="guidelinesModalLabel"><i class="fa-solid fa-book-open me-2 text-info"></i>Guidelines</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <ul>
+            <li>Provide scores based on your <strong>academic marks</strong>. If a subject is not part of your course, enter your <strong>basic knowledge level</strong>.</li>
+            <li>Fill in <strong>all required fields</strong> without leaving any blanks.</li>
+            <li>Ensure accuracy in your self-assessment to get the most personalized career recommendations.</li>
+            <li>Use the "Part-Time Job" and "Extracurricular Activities" fields honestly as they influence recommendations.</li>
+          </ul>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-proceed" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOW IT WORKS SECTION -->
+  <section id="how-it-works">
+    <h3>How It Works</h3>
+    <p>Our system analyzes your academic scores, habits, and interests to generate the top career paths that fit your unique strengths and preferences.</p>
+    <div class="container mt-4">
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="step-card">
+            <div class="step-icon"><i class="fa-solid fa-clipboard-list"></i></div>
+            <h5>Step 1: Input</h5>
+            <p>Fill in your academic performance and extracurricular details.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="step-card">
+            <div class="step-icon"><i class="fa-solid fa-brain"></i></div>
+            <h5>Step 2: Analyze</h5>
+            <p>Our AI model evaluates your strengths and patterns across subjects.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="step-card">
+            <div class="step-icon"><i class="fa-solid fa-chart-line"></i></div>
+            <h5>Step 3: Recommend</h5>
+            <p>Get personalized, ranked career suggestions with probabilities.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
