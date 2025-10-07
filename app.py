@@ -74,7 +74,7 @@ def Recommendations(gender, part_time_job, absence_days, extracurricular_activit
 # -----------------------------------------------------------
 # YouTube Video Fetcher
 # -----------------------------------------------------------
-YOUTUBE_API_KEY = "AIzaSyDlib0s1iU21dXPd6YOmPd2ePpckSOWDsM"  
+YOUTUBE_API_KEY = "Your API"  
 
 def fetch_youtube_videos(query, max_results=3):
     """Fetches at least 3 YouTube videos related to the given career/study name."""
