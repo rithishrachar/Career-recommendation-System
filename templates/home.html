@@ -108,6 +108,7 @@
       .hero .hero-content { padding-left: 72px; padding-right: 72px; }
     }
   </style>
+
 </head>
 <body>
 
@@ -323,5 +324,176 @@
     }, options);
     counters.forEach(c => obs.observe(c));
   </script>
+  <!-- PROFESSIONAL QUOTES LOADER -->
+<div id="loader-overlay">
+  <div class="loader-content text-center">
+    <div class="spinner-border text-info" style="width: 3.5rem; height: 3.5rem;" role="status"></div>
+    <h1 class="loading-text mt-4">Loading...</h1>
+    <p id="quote" class="quote-text mt-3"></p>
+
+    <div class="watermark-container mt-4">
+      <div class="line left-line"></div>
+      <div class="watermark-text">
+        <i class="fa-solid fa-lightbulb me-2"></i>
+        Career <span>Recommendation</span> System
+      </div>
+      <div class="line right-line"></div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* BACKGROUND OVERLAY */
+  #loader-overlay {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at 50% 40%, #0f172a 0%, #0b1221 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    z-index: 9999;
+    color: #f8fafc;
+    text-align: center;
+    transition: opacity 1s ease, visibility 1s ease;
+  }
+
+  #loader-overlay.hidden {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  .loader-content {
+    max-width: 700px;
+    text-align: center;
+    padding: 20px;
+  }
+
+  /* SPINNER */
+  .spinner-border {
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  /* LOADING TEXT */
+  .loading-text {
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: #60a5fa;
+    letter-spacing: 1px;
+    text-shadow: 0 0 15px #06b6d4;
+    animation: glow 1.6s infinite alternate;
+  }
+
+  @keyframes glow {
+    from { text-shadow: 0 0 10px #4f46e5; opacity: 0.8; }
+    to { text-shadow: 0 0 25px #06b6d4; opacity: 1; }
+  }
+
+  /* QUOTES */
+  .quote-text {
+    font-size: 1.25rem;
+    font-style: italic;
+    color: #cbd5e1;
+    line-height: 1.6;
+    margin-top: 16px;
+    min-height: 60px;
+    opacity: 0;
+    transition: opacity 1s ease;
+  }
+
+  .quote-text.visible {
+    opacity: 1;
+  }
+
+  /* WATERMARK DESIGN */
+  .watermark-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 40px;
+    opacity: 0.8;
+  }
+
+  .watermark-text {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #94a3b8;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .watermark-text span {
+    color: #60a5fa;
+  }
+
+  .line {
+    width: 50px;
+    height: 1.5px;
+    background: linear-gradient(90deg, transparent, #4f46e5, transparent);
+  }
+
+  @media (max-width: 600px) {
+    .loading-text { font-size: 2rem; }
+    .quote-text { font-size: 1.1rem; }
+    .line { width: 30px; }
+  }
+</style>
+
+<script>
+  // ✅ Motivational quotes (expanded & randomized)
+  const quotes = [
+    "“Education is the most powerful weapon which you can use to change the world.” — Nelson Mandela",
+    "“The beautiful thing about learning is that no one can take it away from you.” — B.B. King",
+    "“An investment in knowledge pays the best interest.” — Benjamin Franklin",
+    "“The roots of education are bitter, but the fruit is sweet.” — Aristotle",
+    "“Education is not the learning of facts, but the training of the mind to think.” — Albert Einstein",
+    "“Learning never exhausts the mind.” — Leonardo da Vinci",
+    "“The future belongs to those who prepare for it today.” — Malcolm X",
+    "“Success is the sum of small efforts, repeated day in and day out.” — Robert Collier",
+    "“The expert in anything was once a beginner.” — Helen Hayes",
+    "“Don’t watch the clock; do what it does. Keep going.” — Sam Levenson",
+    "“There are no shortcuts to any place worth going.” — Beverly Sills",
+    "“It always seems impossible until it’s done.” — Nelson Mandela",
+    "“Dream big. Work hard. Stay humble.” — Unknown"
+  ];
+
+  const quoteEl = document.getElementById("quote");
+  let index = Math.floor(Math.random() * quotes.length); // pick a random start
+
+  function showQuote() {
+    quoteEl.classList.remove("visible");
+    setTimeout(() => {
+      quoteEl.textContent = quotes[index];
+      quoteEl.classList.add("visible");
+      index = (index + 1) % quotes.length;
+    }, 600);
+  }
+
+  // ✅ Show random quote immediately
+  showQuote();
+  const quoteInterval = setInterval(showQuote, 4000);
+
+  // ✅ Hide loader after few seconds
+  window.addEventListener("load", () => {
+    setTimeout(() => {
+      document.getElementById("loader-overlay").classList.add("hidden");
+      clearInterval(quoteInterval);
+    }, 6000);
+  });
+</script>
+
+
+<!-- Font Awesome for watermark icon -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+
 </body>
 </html>
